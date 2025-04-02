@@ -1,0 +1,21 @@
+# ninja log v6
+1	53	7652923854155206	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-mkdir	ce83626e27de92d5
+1	53	7652923854155206	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-mkdir	ce83626e27de92d5
+53	1968	7652923873302287	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-download	6ba16c15e0408a19
+53	1968	7652923873302287	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-download	6ba16c15e0408a19
+1968	2092	7652923873347681	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-update	afddd6bdd047cab6
+1968	2092	7652923873347681	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-update	afddd6bdd047cab6
+2092	2129	7652923874911575	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-patch	535bb0c49b620f7b
+2092	2129	7652923874911575	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-patch	535bb0c49b620f7b
+2129	2167	7652923875290940	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-configure	db93c9a9f12bebd8
+2129	2167	7652923875290940	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-configure	db93c9a9f12bebd8
+2167	2207	7652923875694591	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-build	70a989d287908ed6
+2167	2207	7652923875694591	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-build	70a989d287908ed6
+2207	2254	7652923876165454	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-install	19b8580db0748e55
+2207	2254	7652923876165454	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-install	19b8580db0748e55
+2254	2292	7652923876536968	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-test	db1496c8902b79c
+2254	2292	7652923876536968	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-test	db1496c8902b79c
+2292	2347	7652923877095849	CMakeFiles/cpr-populate-complete	a8d3518b1534acf9
+2292	2347	7652923877095849	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-done	a8d3518b1534acf9
+2292	2347	7652923877095849	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/CMakeFiles/cpr-populate-complete	a8d3518b1534acf9
+2292	2347	7652923877095849	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-done	a8d3518b1534acf9
