@@ -1,0 +1,71 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"build/unknown-Debug/_deps/curl-src/lib/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"dependencies" : 
+	[
+		{
+			"id" : "curlu_autogen_timestamp_deps::@7349aeacaff41deceb36"
+		}
+	],
+	"id" : "curlu_autogen::@7349aeacaff41deceb36",
+	"isGeneratorProvided" : true,
+	"name" : "curlu_autogen",
+	"paths" : 
+	{
+		"build" : "_deps/curl-build/lib",
+		"source" : "build/unknown-Debug/_deps/curl-src/lib"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				1,
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/unknown-Debug/_deps/curl-build/lib/CMakeFiles/curlu_autogen",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/unknown-Debug/_deps/curl-build/lib/CMakeFiles/curlu_autogen.rule",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/unknown-Debug/_deps/curl-build/lib/curlu_autogen/timestamp.rule",
+			"sourceGroupIndex" : 1
+		}
+	],
+	"type" : "UTILITY"
+}
