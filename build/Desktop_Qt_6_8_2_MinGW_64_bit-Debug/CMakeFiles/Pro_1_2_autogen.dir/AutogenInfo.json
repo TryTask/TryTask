@@ -291,6 +291,12 @@
 		"C:/Qt/6.8.2/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake",
 		"C:/Qt/6.8.2/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginAdditionalTargetInfo.cmake",
 		"C:/Qt/6.8.2/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsVersionlessAliasTargets.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FetchContent.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/ExternalProject/shared_internal_commands.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindGit.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageHandleStandardArgs.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FindPackageMessage.cmake",
+		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/FetchContent/CMakeLists.cmake.in",
 		"C:/Qt/Tools/CMake_64/share/cmake-3.30/Modules/GNUInstallDirs.cmake",
 		"C:/Users/Ice/Documents/Pro_1_2/resources.qrc"
 	],
@@ -339,6 +345,9 @@
 	],
 	"MOC_INCLUDES" : 
 	[
+		"C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-src/include",
+		"C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-build/cpr_generated_includes",
+		"C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/curl-src/include",
 		"C:/Qt/6.8.2/mingw_64/include/QtCore",
 		"C:/Qt/6.8.2/mingw_64/include",
 		"C:/Qt/6.8.2/mingw_64/mkspecs/win32-g++",

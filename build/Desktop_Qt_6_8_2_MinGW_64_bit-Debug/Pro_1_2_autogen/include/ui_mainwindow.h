@@ -169,11 +169,11 @@ public:
         pageRegister->setObjectName("pageRegister");
         img2 = new QLabel(pageRegister);
         img2->setObjectName("img2");
-        img2->setGeometry(QRect(230, 220, 281, 221));
+        img2->setGeometry(QRect(230, 210, 281, 221));
         img2->setPixmap(QPixmap(QString::fromUtf8("../Pro_1_1/img/14.jpg")));
         layoutWidget1 = new QWidget(pageRegister);
         layoutWidget1->setObjectName("layoutWidget1");
-        layoutWidget1->setGeometry(QRect(630, 230, 301, 181));
+        layoutWidget1->setGeometry(QRect(630, 200, 331, 211));
         verticalLayout = new QVBoxLayout(layoutWidget1);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(0, 0, 0, 0);

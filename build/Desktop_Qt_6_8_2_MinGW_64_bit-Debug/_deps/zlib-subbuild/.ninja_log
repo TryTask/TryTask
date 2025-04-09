@@ -1,0 +1,21 @@
+# ninja log v6
+1	66	7658192841800059	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-mkdir	b1dd942c60e55ccd
+1	66	7658192841800059	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-mkdir	b1dd942c60e55ccd
+67	4272	7658192883871843	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-download	591a4cbc1d359c1
+67	4272	7658192883871843	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-download	591a4cbc1d359c1
+4276	4437	7658192883980425	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-update	ca056c3ef45a470f
+4276	4437	7658192883980425	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-update	ca056c3ef45a470f
+4437	4504	7658192886165383	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-patch	76a3a8420e89e06b
+4437	4504	7658192886165383	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-patch	76a3a8420e89e06b
+4504	4563	7658192886785361	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-configure	1e972ca1f46903d4
+4504	4563	7658192886785361	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-configure	1e972ca1f46903d4
+4563	4618	7658192887340805	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-build	4c4d5b082e5450fa
+4563	4618	7658192887340805	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-build	4c4d5b082e5450fa
+4619	4679	7658192887941049	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-install	d3073bf50a0436f7
+4619	4679	7658192887941049	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-install	d3073bf50a0436f7
+4679	4734	7658192888496361	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-test	bfa31beb6e235722
+4679	4734	7658192888496361	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-test	bfa31beb6e235722
+4734	4816	7658192889320192	CMakeFiles/zlib-populate-complete	eb335e66c7d8c8a6
+4734	4816	7658192889320192	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-done	eb335e66c7d8c8a6
+4734	4816	7658192889320192	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/CMakeFiles/zlib-populate-complete	eb335e66c7d8c8a6
+4734	4816	7658192889320192	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-done	eb335e66c7d8c8a6

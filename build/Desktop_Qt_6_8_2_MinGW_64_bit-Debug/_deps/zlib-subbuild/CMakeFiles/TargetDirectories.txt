@@ -1,0 +1,3 @@
+C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/CMakeFiles/zlib-populate.dir
+C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/zlib-subbuild/CMakeFiles/rebuild_cache.dir
