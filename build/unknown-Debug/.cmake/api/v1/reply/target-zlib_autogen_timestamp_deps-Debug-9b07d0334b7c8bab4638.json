@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"build/unknown-Debug/_deps/zlib-src/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "zlib_autogen_timestamp_deps::@c9556b0b6bf47963f9da",
+	"isGeneratorProvided" : true,
+	"name" : "zlib_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "_deps/zlib-build",
+		"source" : "build/unknown-Debug/_deps/zlib-src"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

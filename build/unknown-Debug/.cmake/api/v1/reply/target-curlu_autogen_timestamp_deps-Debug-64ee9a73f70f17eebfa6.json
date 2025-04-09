@@ -1,0 +1,27 @@
+{
+	"backtrace" : 0,
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : 
+		[
+			"build/unknown-Debug/_deps/curl-src/lib/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			}
+		]
+	},
+	"id" : "curlu_autogen_timestamp_deps::@7349aeacaff41deceb36",
+	"isGeneratorProvided" : true,
+	"name" : "curlu_autogen_timestamp_deps",
+	"paths" : 
+	{
+		"build" : "_deps/curl-build/lib",
+		"source" : "build/unknown-Debug/_deps/curl-src/lib"
+	},
+	"sources" : [],
+	"type" : "UTILITY"
+}

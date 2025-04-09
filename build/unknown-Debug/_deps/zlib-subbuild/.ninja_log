@@ -1,0 +1,21 @@
+# ninja log v6
+0	19	1743966525122995530	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-mkdir	dd6bd548ba43e86c
+0	19	1743966525122995530	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-mkdir	dd6bd548ba43e86c
+19	20243	1743966545346992226	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-download	cb9baabdffe22870
+19	20243	1743966545346992226	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-download	cb9baabdffe22870
+20243	20261	1743966545347992226	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-update	957f9f89d1c43695
+20243	20261	1743966545347992226	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-update	957f9f89d1c43695
+20261	20281	1743966545384992220	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-patch	28e84a85d9c50746
+20261	20281	1743966545384992220	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-patch	28e84a85d9c50746
+20281	20303	1743966545406992216	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-configure	62ea4be8815d8e15
+20281	20303	1743966545406992216	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-configure	62ea4be8815d8e15
+20303	20323	1743966545425992213	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-build	ea2b36aa4ab2dd71
+20303	20323	1743966545425992213	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-build	ea2b36aa4ab2dd71
+20324	20343	1743966545446992210	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-install	90bc568f6ac0648f
+20324	20343	1743966545446992210	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-install	90bc568f6ac0648f
+20343	20362	1743966545465992207	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-test	7de0f20c4d95c380
+20343	20362	1743966545465992207	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-test	7de0f20c4d95c380
+20362	20388	1743966545491992202	CMakeFiles/zlib-populate-complete	b35690215cf3ccfc
+20362	20388	1743966545491992202	zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-done	b35690215cf3ccfc
+20362	20388	1743966545491992202	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/CMakeFiles/zlib-populate-complete	b35690215cf3ccfc
+20362	20388	1743966545491992202	/home/artem/TryTask/build/unknown-Debug/_deps/zlib-subbuild/zlib-populate-prefix/src/zlib-populate-stamp/zlib-populate-done	b35690215cf3ccfc

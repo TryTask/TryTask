@@ -31,9 +31,9 @@ private slots:
     void on_refreshTasksButton_clicked();
     void on_taskListWidget_itemClicked(QListWidgetItem *item);
 
-
 private:
     Ui::MainWindow *ui;
+    QString bearerToken;
     QString generateUniqueID();
     bool isUserDuplicate(const QString &login, const QString &password);
     void saveUserToFile(const QString &id, const QString &login, const QString &password);
@@ -46,8 +46,8 @@ private:
     TaskWindow *window;
     void loadTasksForUser();
     QString getTasksFilePath();
-
-
+    void saveUserInfoToFile(); // Додано оголошення
+    void loadUserInfoFromFile(); // Додано оголошення
 };
 
 #endif // MAINWINDOW_H
