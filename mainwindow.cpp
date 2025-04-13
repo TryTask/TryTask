@@ -1,18 +1,20 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "./ui_mainwindow.h" // Використовуємо ./ для відносної вказівки
+#include "taskwindow.h"     // Підключаємо визначення TaskWindow
+
 #include <QMessageBox>
 #include <QPixmap>
 #include <QFile>
 #include <QTextStream>
 #include <QStandardPaths>
-#include <QRandomGenerator>
+// #include <QRandomGenerator> // Більше не потрібен тут
 #include <QDebug>
-#include <cpr/cpr.h>
-#include <QJsonDocument>
+#include <cpr/cpr.h>      // Бібліотека для HTTP запитів
+#include <QJsonDocument>  // Для роботи з JSON
 #include <QJsonObject>
 #include <QJsonArray>
-
-using namespace std;
+#include <QListWidgetItem> // Для роботи з елементами списку
+#include <QDir>          // Для роботи з директоріями
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -23,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // Стиль
+    // --- Стилі ---
     ui->taskListWidget->setStyleSheet(
         "QListWidget {"
         "   background-color: white;"
@@ -40,393 +42,285 @@ MainWindow::MainWindow(QWidget *parent)
         "   padding: 8px;"
         "   margin: 4px;"
         "}"
-        "QListWidget::item:hover {"
-        "   background-color: #d9d9d9;"
-        "}"
-        "QListWidget::item:selected {"
-        "   background-color: #c0c0c0;"
-        "   color: black;"
-        "   font-weight: bold;"
-        "}"
+        "QListWidget::item:hover { background-color: #d9d9d9; }"
+        "QListWidget::item:selected { background-color: #c0c0c0; color: black; font-weight: bold; }"
         );
 
-    //  QStackedWidget для перемикання між сторінками
-    ui->stackedWidget->setCurrentWidget(ui->pageLogin);
-
-    // Стилізація
     this->setStyleSheet(
         "QWidget { background-color: white; }"
         "QLabel { color: black; font-size: 14px; }"
         "QLineEdit {"
-        "   background-color: white;"
-        "   color: black;"
-        "   border: 1px solid gray;"
-        "   padding: 8px 12px;"
-        "   border-radius: 15px;"
+        "   background-color: white; color: black; border: 1px solid gray;"
+        "   padding: 8px 12px; border-radius: 15px;"
         "}"
         "QPushButton {"
-        "   background-color: #e0e0e0;"
-        "   color: black;"
-        "   border: 1px solid gray;"
-        "   padding: 5px;"
-        "   border-radius: 10px;"
+        "   background-color: #e0e0e0; color: black; border: 1px solid gray;"
+        "   padding: 5px; border-radius: 10px;"
         "}"
         "QPushButton:hover { background-color: #d0d0d0; }"
         );
+    // --------------------------
 
-
-    // Завантаження зображення
+    // --- Завантаження зображення ---
     QPixmap pix(":/resources/img/14.jpg");
+    if(!pix.isNull()) {
+        int w = ui->img->width(); int h = ui->img->height();
+        ui->img->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
+        int w2 = ui->img2->width(); int h2 = ui->img2->height();
+        ui->img2->setPixmap(pix.scaled(w2, h2, Qt::KeepAspectRatio));
+    } else {
+         qWarning() << "Could not load image ':/resources/img/14.jpg'";
+    }
+    // ---------------------------------------
 
-    int w = ui->img->width();
-    int h = ui->img->height();
-    ui->img->setPixmap(pix.scaled(w, h, Qt::KeepAspectRatio));
-
-    int w2 = ui->img2->width();
-    int h2 = ui->img2->height();
-    ui->img2->setPixmap(pix.scaled(w2, h2, Qt::KeepAspectRatio));
-
-    // Завантаження токена та інформації про користувача з файлу
+    // --- Завантаження сесії ---
     loadUserInfoFromFile();
-    if (!bearerToken.isEmpty() && !currentUserID.isEmpty() && !currentUserLogin.isEmpty()) {
-        qDebug() << "Токен та інформація про користувача завантажено з файлу.";
+    if (!bearerToken.isEmpty() && !currentUserID.isEmpty()) {
+        qDebug() << "User info and token loaded from file.";
         updateUserInfo();
         ui->stackedWidget->setCurrentWidget(ui->pageMain);
         loadTasksForUser();
     } else {
-        qDebug() << "Не вдалося завантажити токен або інформацію про користувача з файлу.";
+        qDebug() << "No saved user session found. Showing Login page.";
+        ui->stackedWidget->setCurrentWidget(ui->pageLogin);
     }
+    // --------------------------
+
+     // Підключаємо сигнал подвійного кліку
+     connect(ui->taskListWidget, &QListWidget::itemDoubleClicked, this, &MainWindow::on_taskListWidget_itemDoubleClicked);
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
-// Вхід у систему
-void MainWindow::on_ButtonLogin_clicked()
-{
+// Допоміжна функція для заголовка авторизації
+cpr::Header MainWindow::getAuthHeader() {
+     if (bearerToken.isEmpty()) { qWarning() << "Empty token!"; return {}; }
+    return cpr::Header{{"Authorization", "Bearer " + bearerToken.toStdString()}};
+}
+
+
+// Логін
+void MainWindow::on_ButtonLogin_clicked() {
     QString login = ui->LogLine->text().trimmed();
     QString password = ui->PassLine->text().trimmed();
+    if (login.isEmpty() || password.isEmpty()) { QMessageBox::warning(this, "Помилка", "Введіть логін та пароль."); return; }
 
+    // Запит на логін
     cpr::Response r = cpr::Post(
         cpr::Url{"https://todo.mindenit.org/login?useCookies=false&useSessionCookies=false"},
-        cpr::Header{
-            {"accept", "application/json"},
-            {"Content-Type", "application/json"}
-        },
+        cpr::Header{{"accept", "application/json"},{"Content-Type", "application/json"}},
         cpr::Body{R"({"email": ")" + login.toStdString() + R"(", "password": ")" + password.toStdString() + R"("})"}
-        );
+    );
 
-    qDebug() << "Status Code (Login): " << r.status_code;
-    qDebug() << "Response Body (Login): " << QString::fromStdString(r.text);
+    qDebug() << "Login Status Code: " << r.status_code;
+    qDebug() << "Login Response Body: " << QString::fromStdString(r.text); // Логуємо відповідь
 
     if (r.status_code == 200) {
         QJsonParseError jsonError;
         QJsonDocument jsonResponse = QJsonDocument::fromJson(QString::fromStdString(r.text).toUtf8(), &jsonError);
 
-        if (!jsonError.NoError) {
-            if (jsonResponse.isObject()) {
-                QJsonObject jsonObj = jsonResponse.object();
-                if (jsonObj.contains("accessToken")) {
-                    bearerToken = jsonObj["accessToken"].toString(); // Store the token
+        if (jsonError.error == QJsonParseError::NoError && jsonResponse.isObject()) {
+            QJsonObject jsonObj = jsonResponse.object();
+            if (jsonObj.contains("accessToken")) {
+                bearerToken = jsonObj["accessToken"].toString();
+                qDebug() << "Access Token received:" << bearerToken;
 
-                    // Отримуємо інформацію про користувача
-                    cpr::Response userResponse = cpr::Get(
-                        cpr::Url{"https://todo.mindenit.org/user"},
-                        cpr::Header{
-                            {"accept", "application/json"},
-                            {"Authorization", "Bearer " + bearerToken.toStdString()}
-                        }
-                        );
+                // Запит на отримання інформації про користувача
+                cpr::Response userResponse = cpr::Get(
+                    cpr::Url{"https://todo.mindenit.org/user"},
+                    getAuthHeader()
+                );
 
-                    qDebug() << "Status Code (Get User): " << userResponse.status_code;
-                    qDebug() << "Response Body (Get User): " << QString::fromStdString(userResponse.text);
+                qDebug() << "Get User Status Code: " << userResponse.status_code;
+                qDebug() << "Get User Response Body: " << QString::fromStdString(userResponse.text); // Логуємо відповідь
 
-                    if (userResponse.status_code == 200) {
-                        QJsonParseError userJsonError;
-                        QJsonDocument userJsonResponse = QJsonDocument::fromJson(QString::fromStdString(userResponse.text).toUtf8(), &userJsonError);
+                if (userResponse.status_code == 200) {
+                    QJsonParseError userJsonError;
+                    QJsonDocument userJsonResponse = QJsonDocument::fromJson(QString::fromStdString(userResponse.text).toUtf8(), &userJsonError);
 
-                        if (!userJsonError.NoError) {
-                            if (userJsonResponse.isObject()) {
-                                QJsonObject userObject = userJsonResponse.object();
-                                if (userObject.contains("Id")) {
-                                    currentUserID = userObject["Id"].toString();
-                                    currentUserLogin = login;
-                                    saveUserInfoToFile(); // Зберігаємо токен та інформацію про користувача
-                                    QMessageBox::information(this, "Успіх", "Вхід виконано!");
-                                    clearLoginFields();
-                                    updateUserInfo();
-                                    ui->stackedWidget->setCurrentWidget(ui->pageMain);
-                                    loadTasksForUser();
-                                    return;
-                                } else {
-                                    QMessageBox::warning(this, "Помилка", "У відповіді сервера відсутній ID користувача.");
-                                }
-                            } else {
-                                QMessageBox::warning(this, "Помилка", "Не вдалося обробити інформацію про користувача (не є об'єктом JSON).");
-                            }
+                    if (userJsonError.error == QJsonParseError::NoError && userJsonResponse.isObject()) {
+                        QJsonObject userObject = userJsonResponse.object();
+
+                        // --- ВАЖЛИВО: Перевірте тут правильний ключ! ---
+                        const QString idKey = "Id"; // Замініть на "Id" якщо потрібно!
+
+                        if (userObject.contains(idKey)) {
+                            currentUserID = userObject[idKey].toString();
+                            currentUserLogin = login;
+                            qDebug() << "User ID received:" << currentUserID;
+
+                            saveUserInfoToFile();
+                            QMessageBox::information(this, "Успіх", "Вхід виконано!");
+                            clearLoginFields();
+                            updateUserInfo();
+                            ui->stackedWidget->setCurrentWidget(ui->pageMain);
+                            loadTasksForUser();
+                            return; // Успішний вихід
                         } else {
-                            qDebug() << "Помилка парсингу JSON (Get User): " << userJsonError.errorString();
-                            QMessageBox::warning(this, "Помилка", "Помилка обробки інформації про користувача.");
+                             qDebug() << "User info response does not contain the key '" << idKey << "'.";
+                             qDebug() << "Available keys in user object:" << userObject.keys(); // Дивимось ключі
+                             QMessageBox::warning(this, "Помилка", "У відповіді сервера відсутній ID користувача ('" + idKey + "').");
                         }
                     } else {
-                        qDebug() << "Помилка отримання інформації про користувача. Статус код: " << userResponse.status_code;
-                        QMessageBox::warning(this, "Помилка", "Не вдалося отримати інформацію про користувача.");
+                         qDebug() << "Failed to parse Get User JSON response:" << userJsonError.errorString();
+                         QMessageBox::warning(this, "Помилка", "Помилка обробки інформації про користувача.");
                     }
                 } else {
-                    QMessageBox::warning(this, "Помилка", "У відповіді сервера відсутній токен.");
+                    qDebug() << "Failed to get user info. Status code:" << userResponse.status_code;
+                     QMessageBox::warning(this, "Помилка", "Не вдалося отримати інформацію про користувача після входу. Код: " + QString::number(userResponse.status_code));
                 }
+                bearerToken = ""; // Скидаємо токен, якщо не вдалося отримати ID
+                saveUserInfoToFile();
+
             } else {
-                QMessageBox::warning(this, "Помилка", "Не вдалося обробити відповідь сервера (не є об'єктом JSON).");
+                 qDebug() << "Login response does not contain 'accessToken'.";
+                 QMessageBox::warning(this, "Помилка", "У відповіді сервера відсутній токен доступу ('accessToken').");
             }
         } else {
-            qDebug() << "Помилка парсингу JSON: " << jsonError.errorString();
-            QMessageBox::warning(this, "Помилка", "Помилка парсингу JSON відповіді сервера: " + jsonError.errorString());
+             qDebug() << "Failed to parse Login JSON response:" << jsonError.errorString();
+             QMessageBox::warning(this, "Помилка", "Помилка обробки відповіді сервера.");
         }
-    } else if (r.status_code == 401) {
-        QMessageBox::warning(this, "Помилка", "Невірний логін або пароль!");
-    } else {
-        // Обробка інших помилок входу
-        QString errorMessage = "Помилка входу!";
+    } else if (r.status_code == 400 || r.status_code == 401 ) {
         QJsonParseError jsonError;
         QJsonDocument jsonResponse = QJsonDocument::fromJson(QString::fromStdString(r.text).toUtf8(), &jsonError);
-
-        if (!jsonError.NoError) {
-            if (jsonResponse.isObject()) {
-                QJsonObject jsonObj = jsonResponse.object();
-                if (jsonObj.contains("detail")) {
-                    errorMessage = jsonObj["detail"].toString();
-                }
-            }
-        }
-        QMessageBox::warning(this, "Помилка", errorMessage);
+        QString errorDetail = "Невірний логін або пароль!";
+         if (jsonError.error == QJsonParseError::NoError && jsonResponse.isObject()) {
+             QJsonObject jsonObj = jsonResponse.object();
+             if (jsonObj.contains("detail")) { errorDetail = jsonObj["detail"].toString(); }
+             else if (jsonObj.contains("errors")) { errorDetail = "Помилка валідації даних."; }
+         }
+         QMessageBox::warning(this, "Помилка входу", errorDetail);
+    } else {
+        qDebug() << "Unhandled login error. Status:" << r.status_code;
+        QMessageBox::warning(this, "Помилка", "Невідома помилка сервера при спробі входу. Код: " + QString::number(r.status_code));
     }
 }
 
-// Перехід на сторінку реєстрації
-void MainWindow::on_ButtonGoToRegister_clicked()
-{
-    clearLoginFields();  // Очищення полів входу при переході на реєстрацію
-    ui->stackedWidget->setCurrentWidget(ui->pageRegister);
-}
+// Перехід на реєстрацію
+void MainWindow::on_ButtonGoToRegister_clicked() { clearLoginFields(); ui->stackedWidget->setCurrentWidget(ui->pageRegister); }
+// Повернення на логін
+void MainWindow::on_ButtonReturnToLogin_clicked() { clearRegisterFields(); ui->stackedWidget->setCurrentWidget(ui->pageLogin); }
 
-// Повернення на сторінку входу
-void MainWindow::on_ButtonReturnToLogin_clicked()
-{
-    clearRegisterFields();  // Очищення полів реєстрації при поверненні на вхід
-    ui->stackedWidget->setCurrentWidget(ui->pageLogin);
-}
+// Реєстрація
+void MainWindow::on_ButtonRegister_clicked() {
+    QString login = ui->inLogin->text().trimmed(); QString password = ui->inPassword->text(); QString passwordCheck = ui->inPasswordCheck->text();
+    if (login.isEmpty() || password.isEmpty() || passwordCheck.isEmpty()) { QMessageBox::warning(this, "Помилка", "Заповніть всі поля!"); return; }
+    if (password != passwordCheck) { QMessageBox::warning(this, "Помилка", "Паролі не співпадають!"); return; }
+    if (password.length() < 6) { QMessageBox::warning(this, "Помилка", "Пароль мін 6 символів."); return; }
 
-// Реєстрація нового користувача
-void MainWindow::on_ButtonRegister_clicked()
-{
-    QString login = ui->inLogin->text().trimmed();
-    QString password = ui->inPassword->text();
-    QString passwordCheck = ui->inPasswordCheck->text();
-
-    if (login.isEmpty() || password.isEmpty() || passwordCheck.isEmpty()) {
-        QMessageBox::warning(this, "Помилка", "Заповніть всі поля!");
-        return;
-    }
-
-    if (password != passwordCheck) {
-        QMessageBox::warning(this, "Помилка", "Паролі не співпадають!");
-        return;
-    }
-
-    // Виконуємо POST-запит на сервер для реєстрації
     cpr::Response r = cpr::Post(
         cpr::Url{"https://todo.mindenit.org/register"},
-        cpr::Header{
-            {"accept", "application/problem+json"},
-            {"Content-Type", "application/json"}
-        },
+        cpr::Header{{"accept", "*/*"}, {"Content-Type", "application/json"}},
         cpr::Body{R"({"email": ")" + login.toStdString() + R"(", "password": ")" + password.toStdString() + R"("})"}
-        );
-
-    qDebug() << "Status Code (Register): " << r.status_code;
-    qDebug() << "Response Body (Register): " << QString::fromStdString(r.text);
-
-    if (r.status_code == 200) { // Перевіряємо код успішної реєстрації (тепер 200)
-        QMessageBox::information(this, "Успіх", "Реєстрація успішна!");
-        clearRegisterFields();  // Очищення полів реєстрації після успішної реєстрації
-        ui->stackedWidget->setCurrentWidget(ui->pageLogin);
-    } else {
-        // Обробка помилок реєстрації
-        QString errorMessage = "Помилка реєстрації!";
-        QJsonParseError jsonError;
-        QJsonDocument jsonResponse = QJsonDocument::fromJson(QString::fromStdString(r.text).toUtf8(), &jsonError);
-
-        if (!jsonError.NoError) {
-            if (jsonResponse.isObject()) {
-                QJsonObject jsonObj = jsonResponse.object();
-                if (jsonObj.contains("detail")) {
-                    errorMessage = jsonObj["detail"].toString();
-                }
-            }
-        }
-        QMessageBox::warning(this, "Помилка", errorMessage);
-    }
-}
-
-// Очищення полів входу
-void MainWindow::clearLoginFields()
-{
-    ui->LogLine->clear();
-    ui->PassLine->clear();
-}
-
-// Перевірка введення пароля
-void MainWindow::on_inPasswordCheck_textChanged(const QString &text)
-{
-    if (text != ui->inPassword->text()) {
-        ui->inPasswordCheck->setStyleSheet("border: 2px solid red;");
-    } else {
-        ui->inPasswordCheck->setStyleSheet("");
-    }
-}
-
-// Очищення полів реєстрації
-void MainWindow::clearRegisterFields()
-{
-    ui->inLogin->clear();
-    ui->inPassword->clear();
-    ui->inPasswordCheck->clear();
-}
-
-void MainWindow::updateUserInfo()
-{
-    ui->labelUsername->setText("Логін: " + currentUserLogin);
-    ui->labelUserID->setText("ID: " + currentUserID);
-}
-
-void MainWindow::on_ButtonLogout_clicked()
-{
-    // Очищаємо інформацію про користувача та токен
-    bearerToken = "";
-    currentUserID = "";
-    currentUserLogin = "";
-    saveUserInfoToFile(); // Очищаємо файл
-    clearLoginFields(); // Очищаємо поля входу
-    ui->stackedWidget->setCurrentWidget(ui->pageLogin); // Повертаємось на сторінку входу
-}
-
-void MainWindow::on_ButtonNewTask_clicked()
-{
-    if (currentUserID.isEmpty()) {
-        QMessageBox::warning(this, "Помилка", "Помилка отримання ID користувача!");
-        return;
-    }
-
-    window = new TaskWindow(this, currentUserID);
-    window->show();
-}
-
-void MainWindow::loadTasksForUser()
-{
-    ui->taskListWidget->clear();
-
-    if (bearerToken.isEmpty()) {
-        qDebug() << "Токен відсутній, неможливо завантажити задачі.";
-        QMessageBox::warning(this, "Помилка", "Не вдалося завантажити задачі: токен відсутній.");
-        return;
-    }
-
-    cpr::Response r = cpr::Get(
-        cpr::Url{"https://todo.mindenit.org/items"},
-        cpr::Header{
-            {"accept", "application/json"},
-            {"Authorization", "Bearer " + bearerToken.toStdString()}
-        }
-        );
-
-    qDebug() << "Status Code (Load Items): " << r.status_code;
-    qDebug() << "Response Body (Load Items): " << QString::fromStdString(r.text);
+    );
+    qDebug() << "Register Status Code: " << r.status_code;
+    qDebug() << "Register Response Body: " << QString::fromStdString(r.text); // Логуємо відповідь
 
     if (r.status_code == 200) {
-        QJsonParseError jsonError;
-        QJsonDocument jsonResponse = QJsonDocument::fromJson(QString::fromStdString(r.text).toUtf8(), &jsonError);
+        QMessageBox::information(this, "Успіх", "Реєстрація успішна! Тепер ви можете увійти.");
+        clearRegisterFields();
+        ui->stackedWidget->setCurrentWidget(ui->pageLogin);
+    } else {
+        QString errorMessage = "Помилка реєстрації!";
+        QJsonParseError jsonError; QJsonDocument jsonResponse = QJsonDocument::fromJson(QString::fromStdString(r.text).toUtf8(), &jsonError);
+        if (jsonError.error == QJsonParseError::NoError && jsonResponse.isObject()) {
+            QJsonObject jsonObj = jsonResponse.object();
+            if (jsonObj.contains("errors") && jsonObj["errors"].isObject()) {
+                 QJsonObject errorsObj = jsonObj["errors"].toObject(); QStringList errorMessages;
+                 for(auto it = errorsObj.begin(); it != errorsObj.end(); ++it) { if (it.value().isArray()) { for(const auto& errVal : it.value().toArray()) { errorMessages.append(errVal.toString()); } } }
+                 if (!errorMessages.isEmpty()) { errorMessage = errorMessages.join("\n"); }
+            } else if (jsonObj.contains("title")) { errorMessage = jsonObj["title"].toString(); if (jsonObj.contains("detail")) { errorMessage += "\n" + jsonObj["detail"].toString(); } }
+        } else { errorMessage = "Помилка сервера. Код: " + QString::number(r.status_code) + ". " + QString::fromStdString(r.reason); }
+        QMessageBox::warning(this, "Помилка реєстрації", errorMessage);
+    }
+}
 
-        if (!jsonError.NoError) {
-            if (jsonResponse.isArray()) {
-                QJsonArray itemsArray = jsonResponse.array();
-                if (itemsArray.isEmpty()) {
-                    QMessageBox::information(this, "Інформація", "У вас немає жодної задачі. Створіть нову!");
-                } else {
-                    for (const QJsonValue &itemValue : itemsArray) {
-                        if (itemValue.isObject()) {
-                            QJsonObject itemObject = itemValue.toObject();
-                            if (itemObject.contains("id") && itemObject.contains("title")) {
-                                int itemId = itemObject["id"].toInt();
-                                QString taskName = itemObject["title"].toString();
-                                QListWidgetItem *taskItem = new QListWidgetItem(taskName, ui->taskListWidget);
-                                taskItem->setData(Qt::UserRole, QString::number(itemId));
-                                ui->taskListWidget->addItem(taskItem);
-                            } else {
-                                qDebug() << "Помилка: об'єкт задачі не містить 'id' або 'title'.";
-                            }
-                        } else {
-                            qDebug() << "Помилка: елемент масиву задач не є об'єктом.";
-                        }
-                    }
+// Очищення полів
+void MainWindow::clearLoginFields() { ui->LogLine->clear(); ui->PassLine->clear(); }
+void MainWindow::clearRegisterFields() { ui->inLogin->clear(); ui->inPassword->clear(); ui->inPasswordCheck->clear(); }
+// Перевірка паролів
+void MainWindow::on_inPasswordCheck_textChanged(const QString &text) { ui->inPasswordCheck->setStyleSheet(text != ui->inPassword->text() ? "border: 1px solid red;" : ""); }
+// Оновлення UI
+void MainWindow::updateUserInfo() { ui->labelUsername->setText("Користувач: " + (currentUserLogin.isEmpty() ? "N/A" : currentUserLogin)); ui->labelUserID->setVisible(false); }
+// Вихід
+void MainWindow::on_ButtonLogout_clicked() { bearerToken = ""; currentUserID = ""; currentUserLogin = ""; saveUserInfoToFile(); ui->taskListWidget->clear(); clearLoginFields(); ui->stackedWidget->setCurrentWidget(ui->pageLogin); qDebug() << "User logged out."; }
+
+// Нова задача
+void MainWindow::on_ButtonNewTask_clicked() {
+    if (bearerToken.isEmpty()) { QMessageBox::warning(this, "Помилка", "Потрібно увійти..."); return; }
+    TaskWindow *newTaskWindow = new TaskWindow(bearerToken, "", this);
+    newTaskWindow->setAttribute(Qt::WA_DeleteOnClose);
+    connect(newTaskWindow, &TaskWindow::taskSavedSuccessfully, this, &MainWindow::loadTasksForUser); // Підключаємо сигнал
+    newTaskWindow->show();
+}
+
+// Завантаження задач
+void MainWindow::loadTasksForUser() {
+    ui->taskListWidget->clear();
+    if (bearerToken.isEmpty()) { qDebug() << "Token empty"; return; }
+    qDebug() << "Loading tasks...";
+    cpr::Response r = cpr::Get( cpr::Url{"https://todo.mindenit.org/items"}, getAuthHeader() );
+    qDebug() << "Load Items Status Code: " << r.status_code;
+    qDebug() << "Load Items Response Body: " << QString::fromStdString(r.text); // Логуємо відповідь
+
+    if (r.status_code == 200) {
+        QJsonParseError jsonError; QJsonDocument jsonResponse = QJsonDocument::fromJson(QString::fromStdString(r.text).toUtf8(), &jsonError);
+        if (jsonError.error == QJsonParseError::NoError && jsonResponse.isArray()) {
+            QJsonArray itemsArray = jsonResponse.array();
+            if (itemsArray.isEmpty()) { qDebug() << "No tasks found"; }
+            else { qDebug() << "Received" << itemsArray.size() << "tasks.";
+                for (const QJsonValue &itemValue : itemsArray) {
+                     if (itemValue.isObject()) { QJsonObject itemObject = itemValue.toObject();
+                         if (itemObject.contains("Id") && itemObject.contains("Name")) { // Перевіряємо Id та Name
+                             int itemId = itemObject["Id"].toInt(); QString taskName = itemObject["Name"].toString(); QString taskDescription = itemObject["Description"].toString();
+                             QListWidgetItem *taskItem = new QListWidgetItem(taskName, ui->taskListWidget); taskItem->setData(Qt::UserRole, itemId); taskItem->setToolTip(taskDescription); ui->taskListWidget->addItem(taskItem);
+                         } else { qWarning() << "Task obj missing Id/Name"; }
+                     } else { qWarning() << "Item not object"; }
                 }
-            } else {
-                qDebug() << "Помилка: відповідь сервера не є масивом JSON.";
-                QMessageBox::warning(this, "Помилка", "Не вдалося обробити список задач від сервера.");
             }
-        } else {
-            qDebug() << "Помилка завантаження задач. Статус код: " << r.status_code;
-            QMessageBox::warning(this, "Помилка", "Не вдалося завантажити задачі з сервера.");
-        }
-    } else if (r.status_code == 404) {
-        QMessageBox::information(this, "Інформація", "У вас немає жодної задачі. Створіть нову!");
-    } else {
-        qDebug() << "Помилка завантаження задач. Статус код: " << r.status_code;
-        QMessageBox::warning(this, "Помилка", "Не вдалося завантажити задачі з сервера.");
-    }
+        } else { QMessageBox::warning(this, "Помилка", "Не вдалося обробити список задач."); }
+    } else if (r.status_code == 401) { QMessageBox::warning(this, "Помилка сесії", "Сесія недійсна."); on_ButtonLogout_clicked(); }
+    else if (r.status_code == 404) { qDebug() << "No tasks (404)"; }
+    else { QMessageBox::warning(this, "Помилка", "Не вдалося завантажити задачі. Код: " + QString::number(r.status_code)); }
 }
 
-void MainWindow::on_refreshTasksButton_clicked()
-{
-    loadTasksForUser();
+// Оновити список
+void MainWindow::on_refreshTasksButton_clicked() { loadTasksForUser(); }
+
+// Редагувати задачу (подвійний клік)
+void MainWindow::on_taskListWidget_itemDoubleClicked(QListWidgetItem *item) {
+     if (!item) return;
+     if (bearerToken.isEmpty()) { QMessageBox::warning(this, "Помилка", "Потрібно увійти..."); return; }
+     int taskIDInt = item->data(Qt::UserRole).toInt(); QString taskIDStr = QString::number(taskIDInt);
+     qDebug() << "Editing task with ID:" << taskIDStr;
+     TaskWindow *editTaskWindow = new TaskWindow(bearerToken, taskIDStr, this);
+     editTaskWindow->setAttribute(Qt::WA_DeleteOnClose);
+     connect(editTaskWindow, &TaskWindow::taskSavedSuccessfully, this, &MainWindow::loadTasksForUser); // Підключаємо сигнал
+     editTaskWindow->show();
 }
 
-void MainWindow::on_taskListWidget_itemClicked(QListWidgetItem *item)
-{
-    QString taskID = item->data(Qt::UserRole).toString();
-    TaskWindow *taskWindow = new TaskWindow(this, currentUserID, taskID);
-    taskWindow->show();
-}
-
-void MainWindow::saveUserInfoToFile()
-{
-    QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
-    QFile userInfoFile(desktopPath + "/userinfo.txt");
+// Збереження сесії
+void MainWindow::saveUserInfoToFile() {
+    QString configPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    QDir configDir(configPath);
+    if (!configDir.exists()) { if (!configDir.mkpath(".")) { qWarning() << "Could not create config dir:" << configPath; QMessageBox::warning(this, "Помилка", "Не вдалося створити директорію."); return; } }
+    QString filePath = configPath + "/userinfo.dat";
+    QFile userInfoFile(filePath);
     if (userInfoFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream out(&userInfoFile);
-        out << bearerToken << "\n";
-        out << currentUserID << "\n";
-        out << currentUserLogin << "\n";
-        userInfoFile.close();
-        qDebug() << "Інформацію про користувача збережено у файл userinfo.txt";
-    } else {
-        QMessageBox::warning(this, "Помилка", "Не вдалося зберегти інформацію про користувача у файл.");
-    }
+        QTextStream out(&userInfoFile); out << "Token=" << bearerToken << "\n"; out << "UserID=" << currentUserID << "\n"; out << "UserLogin=" << currentUserLogin << "\n"; userInfoFile.close(); qDebug() << "User info saved to:" << filePath;
+    } else { qWarning() << "Failed to save user info to:" << filePath << "Error:" << userInfoFile.errorString(); QMessageBox::warning(this, "Помилка", "Не вдалося зберегти сесію."); }
 }
 
-void MainWindow::loadUserInfoFromFile()
-{
-    QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
-    QFile userInfoFile(desktopPath + "/userinfo.txt");
-    if (userInfoFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QTextStream in(&userInfoFile);
-        bearerToken = in.readLine().trimmed();
-        currentUserID = in.readLine().trimmed();
-        currentUserLogin = in.readLine().trimmed();
-        userInfoFile.close();
-        qDebug() << "Інформацію про користувача завантажено з файлу userinfo.txt";
-    } else {
-        qDebug() << "Файл userinfo.txt не знайдено.";
-    }
+// Завантаження сесії
+void MainWindow::loadUserInfoFromFile() {
+    QString configPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    QString filePath = configPath + "/userinfo.dat";
+    QFile userInfoFile(filePath);
+    if (userInfoFile.exists() && userInfoFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&userInfoFile); bearerToken = ""; currentUserID = ""; currentUserLogin = "";
+        while (!in.atEnd()) { QString line = in.readLine().trimmed(); if (line.startsWith("Token=")) { bearerToken = line.mid(6); } else if (line.startsWith("UserID=")) { currentUserID = line.mid(7); } else if (line.startsWith("UserLogin=")) { currentUserLogin = line.mid(10); } }
+        userInfoFile.close(); if (!bearerToken.isEmpty() && !currentUserID.isEmpty()) { qDebug() << "User info loaded"; } else { qDebug() << "Token/UserID missing"; bearerToken = ""; currentUserID = ""; currentUserLogin = ""; }
+    } else { qDebug() << "User info file not found:" << filePath; }
 }

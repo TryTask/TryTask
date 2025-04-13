@@ -32,7 +32,7 @@
        <x>460</x>
        <y>260</y>
        <width>271</width>
-       <height>119</height>
+       <height>141</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
@@ -44,7 +44,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="execTime"/>
+       <widget class="QTimeEdit" name="executionTimeEdit">
+        <property name="displayFormat">
+         <string comment="Ви ідіот?" extracomment="Ви реально ідіот">HH</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QLabel" name="label_7">
@@ -54,7 +58,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="endDate"/>
+       <widget class="QDateTimeEdit" name="dueDateTimeEdit"/>
       </item>
      </layout>
     </widget>
@@ -76,7 +80,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="name"/>
+       <widget class="QLineEdit" name="nameLineEdit"/>
       </item>
       <item>
        <widget class="QLabel" name="label_2">
@@ -86,7 +90,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QTextEdit" name="textEditDescr"/>
+       <widget class="QTextEdit" name="descriptionTextEdit"/>
       </item>
      </layout>
     </widget>
@@ -101,14 +105,14 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <widget class="QPushButton" name="save">
+       <widget class="QPushButton" name="saveButton">
         <property name="text">
          <string>Save</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="BackToMain">
+       <widget class="QPushButton" name="backButton">
         <property name="text">
          <string>Back to main page</string>
         </property>
@@ -116,86 +120,47 @@
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>30</x>
        <y>251</y>
        <width>181</width>
-       <height>181</height>
+       <height>109</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <widget class="QLabel" name="label_4">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777210</height>
+         </size>
+        </property>
         <property name="text">
          <string>Категорія</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="Categ"/>
+       <widget class="QLineEdit" name="categoryLineEdit"/>
       </item>
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Пріорітет</string>
+         <string>Приорітет</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="Prior">
-        <item>
-         <property name="text">
-          <string>---</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Високий</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Середній</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Низький</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Етап</string>
+       <widget class="QSpinBox" name="prioritySpinBox">
+        <property name="minimum">
+         <number>1</number>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="Stage">
-        <item>
-         <property name="text">
-          <string>---</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>У розорбці</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Завершений</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Відмінений</string>
-         </property>
-        </item>
+        <property name="maximum">
+         <number>10</number>
+        </property>
        </widget>
       </item>
      </layout>
