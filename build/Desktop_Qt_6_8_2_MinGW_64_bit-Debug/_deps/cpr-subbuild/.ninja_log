@@ -1,0 +1,21 @@
+# ninja log v6
+3	70	7658192772009972	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-mkdir	458f44e773de662f
+3	70	7658192772009972	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-mkdir	458f44e773de662f
+70	4324	7658192814567849	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-download	cdb2bbbcb8e78eab
+70	4324	7658192814567849	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-download	cdb2bbbcb8e78eab
+4324	4501	7658192814627750	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-update	70ffb737da1112a3
+4324	4501	7658192814627750	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-update	70ffb737da1112a3
+4501	4564	7658192816953628	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-patch	9bfe62168bb20211
+4501	4564	7658192816953628	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-patch	9bfe62168bb20211
+4564	4624	7658192817553555	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-configure	acdbb8d2e68dc3b8
+4564	4624	7658192817553555	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-configure	acdbb8d2e68dc3b8
+4624	4682	7658192818140582	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-build	4cddc146a90fcf66
+4624	4682	7658192818140582	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-build	4cddc146a90fcf66
+4682	4740	7658192818720537	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-install	196ae9c6a9b9799c
+4682	4740	7658192818720537	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-install	196ae9c6a9b9799c
+4740	4798	7658192819306031	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-test	86fb69072030646c
+4740	4798	7658192819306031	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-test	86fb69072030646c
+4798	4876	7658192820076898	CMakeFiles/cpr-populate-complete	e5f1a7df80a9ae32
+4798	4876	7658192820076898	cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-done	e5f1a7df80a9ae32
+4798	4876	7658192820076898	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/CMakeFiles/cpr-populate-complete	e5f1a7df80a9ae32
+4798	4876	7658192820076898	C:/Users/Ice/Documents/Pro_1_2/build/Desktop_Qt_6_8_2_MinGW_64_bit-Debug/_deps/cpr-subbuild/cpr-populate-prefix/src/cpr-populate-stamp/cpr-populate-done	e5f1a7df80a9ae32

@@ -1,11 +1,12 @@
 #include "taskwindow.h"
 #include "ui_taskwindow.h"
-
 #include <QStandardPaths>
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
 #include <QRandomGenerator>
+
+
 
 TaskWindow::TaskWindow(QWidget *parent, QString userID, QString taskID) :
     QMainWindow(parent),
@@ -49,7 +50,7 @@ TaskWindow::TaskWindow(QWidget *parent, QString userID, QString taskID) :
     connect(ui->execTime, &QLineEdit::textChanged, this, [this]() { isModified = true; });
     connect(ui->endDate, &QLineEdit::textChanged, this, [this]() { isModified = true; });
     connect(ui->Prior, &QComboBox::currentTextChanged, this, [this]() { isModified = true; });
-    connect(ui->Categ, &QComboBox::currentTextChanged, this, [this]() { isModified = true; });
+     connect(ui->Categ, &QLineEdit::textChanged, this, [this]() { isModified = true; });
     connect(ui->Stage, &QComboBox::currentTextChanged, this, [this]() { isModified = true; });
 
     qDebug() << "TaskWindow отримав userID:" << userID;
@@ -101,7 +102,7 @@ void TaskWindow::clearFields()
     ui->execTime->clear();
     ui->endDate->clear();
     ui->Prior->setCurrentIndex(0);
-    ui->Categ->setCurrentIndex(0);
+    ui->Categ->clear();
     ui->Stage->setCurrentIndex(0);
     isModified = false;
 }
@@ -114,7 +115,7 @@ void TaskWindow::on_save_clicked()
     QString execTime = ui->execTime->text().trimmed();
     QString endDate = ui->endDate->text().trimmed();
     QString priority = ui->Prior->currentText();
-    QString category = ui->Categ->currentText();
+    QString category = ui->Categ->text().trimmed();
     QString stage = ui->Stage->currentText();
 
     if (taskName.isEmpty() || description.isEmpty() || execTime.isEmpty() || endDate.isEmpty())
@@ -212,7 +213,7 @@ void TaskWindow::loadTaskData()
             } else if (line.startsWith("Пріоритет:")) {
                 ui->Prior->setCurrentText(line.section(": ", 1, 1).trimmed());
             } else if (line.startsWith("Категорія:")) {
-                ui->Categ->setCurrentText(line.section(": ", 1, 1).trimmed());
+                ui->Categ->setText(line.section(": ", 1, 1).trimmed());
             } else if (line.startsWith("Етап:")) {
                 ui->Stage->setCurrentText(line.section(": ", 1, 1).trimmed());
             } else if (line == "----------------------") {
@@ -223,4 +224,8 @@ void TaskWindow::loadTaskData()
 
     file.close();
 }
+
+
+
+
 

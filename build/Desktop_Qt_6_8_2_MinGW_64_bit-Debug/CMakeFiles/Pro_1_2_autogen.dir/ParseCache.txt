@@ -848,6 +848,6 @@ C:/Users/Ice/Documents/Pro_1_2/mainwindow.h
  mdp:C:/Users/Ice/Documents/Pro_1_2/taskwindow.h
 C:/Users/Ice/Documents/Pro_1_2/taskwindow.cpp
  uic:ui_taskwindow.h
-C:/Users/Ice/Documents/Pro_1_2/main.cpp
 C:/Users/Ice/Documents/Pro_1_2/mainwindow.cpp
  uic:./ui_mainwindow.h
+C:/Users/Ice/Documents/Pro_1_2/main.cpp

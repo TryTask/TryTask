@@ -184,7 +184,7 @@ padding: 10px;</string>
       <property name="geometry">
        <rect>
         <x>230</x>
-        <y>220</y>
+        <y>210</y>
         <width>281</width>
         <height>221</height>
        </rect>
@@ -200,9 +200,9 @@ padding: 10px;</string>
       <property name="geometry">
        <rect>
         <x>630</x>
-        <y>230</y>
-        <width>301</width>
-        <height>181</height>
+        <y>200</y>
+        <width>331</width>
+        <height>211</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">

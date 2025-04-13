@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
         "   color: black;"
         "   font-weight: bold;"
         "}"
-    );
+        );
 
     //  QStackedWidget для перемикання між сторінками
     ui->stackedWidget->setCurrentWidget(ui->pageLogin);
@@ -72,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent)
         "   border-radius: 10px;"
         "}"
         "QPushButton:hover { background-color: #d0d0d0; }"
-    );
+        );
 
 
     // Завантаження зображення
@@ -116,7 +116,7 @@ void MainWindow::on_ButtonLogin_clicked()
             {"Content-Type", "application/json"}
         },
         cpr::Body{R"({"email": ")" + login.toStdString() + R"(", "password": ")" + password.toStdString() + R"("})"}
-    );
+        );
 
     qDebug() << "Status Code (Login): " << r.status_code;
     qDebug() << "Response Body (Login): " << QString::fromStdString(r.text);
@@ -138,7 +138,7 @@ void MainWindow::on_ButtonLogin_clicked()
                             {"accept", "application/json"},
                             {"Authorization", "Bearer " + bearerToken.toStdString()}
                         }
-                    );
+                        );
 
                     qDebug() << "Status Code (Get User): " << userResponse.status_code;
                     qDebug() << "Response Body (Get User): " << QString::fromStdString(userResponse.text);
@@ -243,7 +243,7 @@ void MainWindow::on_ButtonRegister_clicked()
             {"Content-Type", "application/json"}
         },
         cpr::Body{R"({"email": ")" + login.toStdString() + R"(", "password": ")" + password.toStdString() + R"("})"}
-    );
+        );
 
     qDebug() << "Status Code (Register): " << r.status_code;
     qDebug() << "Response Body (Register): " << QString::fromStdString(r.text);
@@ -339,7 +339,7 @@ void MainWindow::loadTasksForUser()
             {"accept", "application/json"},
             {"Authorization", "Bearer " + bearerToken.toStdString()}
         }
-    );
+        );
 
     qDebug() << "Status Code (Load Items): " << r.status_code;
     qDebug() << "Response Body (Load Items): " << QString::fromStdString(r.text);
