@@ -1,8 +1,0 @@
-libcurl_shared_autogen/timestamp: \
-	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/curl-build/lib/Makefile.inc.cmake \
-	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/curl-build/lib/Makefile.soname.cmake \
-	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/curl-src/lib/CMakeLists.txt \
-	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/curl-src/lib/Makefile.inc \
-	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/curl-src/lib/Makefile.soname \
-	C:/Users/hturu/Downloads/TryTask-chor-client-side-aplication-2/build/Desktop_Qt_6_8_1_MinGW_64_bit-Debug/_deps/curl-src/lib/curl_config.h.cmake \
-	C:/Qt/Tools/CMake_64/bin/cmake.exe
