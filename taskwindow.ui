@@ -97,9 +97,9 @@
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>461</x>
        <y>410</y>
-       <width>222</width>
+       <width>271</width>
        <height>31</height>
       </rect>
      </property>
@@ -126,7 +126,7 @@
        <x>30</x>
        <y>251</y>
        <width>181</width>
-       <height>109</height>
+       <height>120</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">

@@ -25,11 +25,16 @@ class TaskWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit TaskWindow(QString bearerToken, QString taskID = "", QWidget *parent = nullptr);
+    explicit TaskWindow(QString token, int taskIdToEdit = 0, QWidget *parent = nullptr);
     ~TaskWindow();
+    void setTaskDetails(const QString &name, const QString &description, int categoryId, int priority, int aprxHours, const QString &endedAtIso);
+
 
 signals:
     void taskSavedSuccessfully();
+
+protected:
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void on_saveButton_clicked();
@@ -58,6 +63,8 @@ private:
     const int DEFAULT_PRIORITY = 3;
     const QString DEFAULT_CATEGORY_COLOR = "black"; // Колір для нових категорій
     const int INVALID_CATEGORY_ID = -1; // Використовуємо для позначення помилки або "без категорії"
+    int editingTaskId;
+
 };
 
 #endif // TASKWINDOW_H

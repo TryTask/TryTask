@@ -32,6 +32,10 @@ private slots:
     void on_taskListWidget_itemDoubleClicked(QListWidgetItem *item); // Змінено на DoubleClicked для редагування
     void loadTasksForUser(); // Слот для оновлення після збереження задачі
 
+    void on_deleteTaskButton_clicked();
+
+    void on_EditButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString bearerToken;    // Токен доступу
