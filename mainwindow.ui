@@ -77,7 +77,7 @@
        <rect>
         <x>470</x>
         <y>510</y>
-        <width>175</width>
+        <width>195</width>
         <height>31</height>
        </rect>
       </property>
@@ -142,39 +142,33 @@ padding: 10px;</string>
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="ButtonNewTask">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>90</y>
-        <width>221</width>
-        <height>191</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>New Task</string>
-      </property>
-     </widget>
      <widget class="QListWidget" name="taskListWidget">
       <property name="geometry">
        <rect>
-        <x>350</x>
+        <x>170</x>
         <y>90</y>
-        <width>256</width>
-        <height>192</height>
+        <width>931</width>
+        <height>521</height>
        </rect>
       </property>
      </widget>
      <widget class="QWidget" name="">
       <property name="geometry">
        <rect>
-        <x>351</x>
-        <y>290</y>
-        <width>256</width>
-        <height>31</height>
+        <x>60</x>
+        <y>90</y>
+        <width>95</width>
+        <height>139</height>
        </rect>
       </property>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPushButton" name="ButtonNewTask">
+         <property name="text">
+          <string>New Task</string>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QPushButton" name="refreshTasksButton">
          <property name="text">
